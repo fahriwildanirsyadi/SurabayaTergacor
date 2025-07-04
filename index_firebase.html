@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Surabaya Tergacor - Login</title>
+  <script type="module">
+    import { db, ref, get, set } from './firebase-config.js';
+
+    window.onload = () => {
+      const user = localStorage.getItem("user");
+      if (user) {
+        window.location.href = "menu.html";
+      }
+    };
+
+    window.login = async () => {
+      const username = document.getElementById("username").value.trim();
+      if (!username) return alert("Masukkan nama pengguna!");
+
+      localStorage.setItem("user", username);
+      const userRef = ref(db, 'users/' + username);
+      const snap = await get(userRef);
+      if (!snap.exists()) {
+        await set(userRef, { saldo: 100000 });
+      }
+      window.location.href = "menu.html";
+    };
+  </script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(#111, #222);
+      color: white;
+      text-align: center;
+      padding-top: 100px;
+    }
+    input {
+      padding: 12px;
+      font-size: 18px;
+      width: 250px;
+    }
+    button {
+      padding: 12px 24px;
+      font-size: 18px;
+      margin-top: 10px;
+      background-color: orange;
+      color: black;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎰 Surabaya Tergacor</h1>
+  <p>Masukkan Nama Pengguna:</p>
+  <input id="username" placeholder="contoh: fahri123" />
+  <br />
+  <button onclick="login()">Login</button>
+</body>
+</html>

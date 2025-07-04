@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Menu - Surabaya Tergacor</title>
+  <script type="module">
+    import { db, ref, get } from './firebase-config.js';
+
+    window.onload = async () => {
+      const user = localStorage.getItem("user");
+      if (!user) {
+        window.location.href = "index_firebase.html";
+        return;
+      }
+      document.getElementById("username").innerText = user;
+      const snap = await get(ref(db, 'users/' + user));
+      if (snap.exists()) {
+        document.getElementById("saldo").innerText = snap.val().saldo;
+      }
+    };
+
+    window.logout = () => {
+      localStorage.removeItem("user");
+      window.location.href = "index_firebase.html";
+    };
+
+    window.topup = () => {
+      const wa = "https://wa.me/6281298226577?text=Halo%20Admin,%20saya%20ingin%20TOP%20UP%20Saldo%20Slot%20SurabayaTergacor";
+      window.open(wa, '_blank');
+    };
+
+    window.withdraw = () => {
+      const wa = "https://wa.me/6281298226577?text=Halo%20Admin,%20saya%20ingin%20WITHDRAW%20Saldo%20Slot%20SurabayaTergacor";
+      window.open(wa, '_blank');
+    };
+  </script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: white;
+      text-align: center;
+      padding: 40px;
+    }
+    button {
+      display: block;
+      margin: 10px auto;
+      padding: 12px 24px;
+      font-size: 18px;
+      background-color: orange;
+      color: black;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 80%;
+      max-width: 300px;
+    }
+  </style>
+</head>
+<body>
+  <h2>🎰 Surabaya Tergacor</h2>
+  <p>👤 <b id="username"></b> | Saldo: Rp <b id="saldo">0</b></p>
+
+  <button onclick="location.href='mahjong_ways_1_firebase.html'">🀄 Mahjong Ways 1</button>
+  <button onclick="location.href='mahjong_ways_2_firebase.html'">🀇 Mahjong Ways 2</button>
+  <button onclick="location.href='mahjong_scatter_hitam_firebase.html'">🌑 Mahjong Scatter Hitam</button>
+  <button onclick="location.href='spaceman_firebase.html'">🚀 Spaceman</button>
+
+  <hr style="margin: 30px 0; border: 1px solid #444;" />
+
+  <button onclick="topup()">🔼 Top Up</button>
+  <button onclick="withdraw()">🔽 Withdraw</button>
+  <button onclick="logout()">🚪 Logout</button>
+</body>
+</html>
